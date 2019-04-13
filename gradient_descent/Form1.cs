@@ -17,6 +17,8 @@ namespace gradient_descent
             InitializeComponent();
         }
         double origin_slope;
+        double min_y = 0;
+        double min_x = 0;
         private void button1_Click(object sender, EventArgs e)
         {
             this.chart1.Series[1].Points.Clear();
@@ -24,7 +26,7 @@ namespace gradient_descent
             Draw_model();
             origin_slope = Count_slope(x, x-0.1, find_y_in_model(x), find_y_in_model(x-0.1));
             GD(x, x-0.1, find_y_in_model(x), find_y_in_model(x-0.1), origin_slope, 0);
-            
+            label2.Text = "X: "+Convert.ToString(min_x)+ "\nY: " +Convert.ToString(min_y); 
         }
         public void Draw_model()
         {
@@ -33,6 +35,7 @@ namespace gradient_descent
             for (double x=0;x<=10;x=x+0.01)
             {
                 y = find_y_in_model(x);
+                
                 this.chart1.Series[0].Points.AddXY(x, y);
             }
         }
@@ -52,6 +55,8 @@ namespace gradient_descent
             else
             {
                 this.chart1.Series[1].Points.AddXY(current_x, current_y);
+                min_x = current_x;
+                min_y = current_y;
                 num++;
                 double dx = find_dx(current_x, last_x, current_y, last_y);
                 double next_x = current_x+dx;
@@ -71,6 +76,11 @@ namespace gradient_descent
             double slope;
             slope = (current_y - last_y) / (current_x - last_x);
             return slope;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
